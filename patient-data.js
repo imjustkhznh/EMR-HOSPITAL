@@ -4,4 +4,4 @@ const patients = [
   { id: "3", name: "Lê Văn C", age: 40, diagnosis: "Tiểu đường" }
 ];
 
-console.log("Danh sách bệnh nhân ban đầu:", patients);
+module.exports = patients;
