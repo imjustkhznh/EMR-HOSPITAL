@@ -1,5 +1,5 @@
-import { Patient } from './src/models/patient';
-import { Doctor, Role } from './src/models/doctor';
+import { Patient } from './models/patient';
+import { Doctor, Role } from './models/doctor';
 import patientsData from './patient-data';
 
 // Array Utilities with Generics
