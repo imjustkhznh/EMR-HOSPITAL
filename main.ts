@@ -2,6 +2,45 @@ import { Patient } from './models/patient';
 import { Doctor, Role } from './models/doctor';
 import patientsData from './patient-data';
 
+// Kiểm tra tuổi bệnh nhân hợp lệ (type guard cơ bản)
+export function checkAge(patient: Patient): boolean {
+  return typeof patient.age === 'number' && patient.age > 0;
+}
+// Decorator để log action
+function Log(target: any, propertyKey: string, descriptor: PropertyDescriptor) {
+  const originalMethod = descriptor.value;
+  descriptor.value = function (...args: any[]) {
+    console.log(`Action: ${propertyKey}, Args:`, args);
+    return originalMethod.apply(this, args);
+  };
+  return descriptor;
+}
+
+// Định nghĩa model MedicalRecord
+export interface MedicalRecord {
+  id: string;
+  patientId: string;
+  date: Date;
+  diagnosis: string;
+}
+
+// Sử dụng Pick cho view ngắn gọn
+type MedicalRecordShortView = Pick<MedicalRecord, 'id' | 'date'>;
+
+// Class quản lý bệnh nhân với decorator và Partial
+class PatientManager {
+  patients: Patient[] = [];
+
+  @Log
+  addPatient(patient: Patient) {
+    this.patients = addItem(this.patients, patient);
+  }
+
+  updatePatient(id: string, updates: Partial<Patient>) {
+    this.patients = updateItem(this.patients, id, updates);
+  }
+}
+
 // Array Utilities with Generics
 export function addItem<T extends { id: string }>(array: T[], item: T): T[] {
   const idStr = String(item.id);
