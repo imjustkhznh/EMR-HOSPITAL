@@ -1,5 +1,5 @@
 .patient-form-container {
-  background: #f9f9f9;
+  background: #ffffff;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   padding: 24px;
@@ -39,6 +39,8 @@
   font-family: inherit;
   transition: all 0.2s ease;
   resize: vertical;
+  background-color: #ffffff;
+  color: #333;
 }
 
 .patient-form textarea:focus {

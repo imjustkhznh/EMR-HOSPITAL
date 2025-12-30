@@ -103,6 +103,15 @@ export function useFormValidation(
     [values, validateAll]
   );
 
+  // Check if form is valid
+  const isFormValid = useCallback((): boolean => {
+    for (const fieldName of Object.keys(values)) {
+      const error = validateField(fieldName, values[fieldName]);
+      if (error) return false;
+    }
+    return true;
+  }, [values, validateField]);
+
   // Reset form
   const reset = useCallback(() => {
     setValues(initialValues);
@@ -121,6 +130,7 @@ export function useFormValidation(
     handleSubmit,
     validateField,
     validateAll,
+    isFormValid,
     reset,
     setValues,
   };

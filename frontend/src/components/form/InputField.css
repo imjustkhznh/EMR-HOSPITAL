@@ -25,6 +25,8 @@
   font-size: 14px;
   font-family: inherit;
   transition: all 0.2s ease;
+  background-color: #ffffff;
+  color: #333;
 }
 
 .input-field input:focus {
@@ -61,4 +63,30 @@
 .input-field .error-message::before {
   content: '⚠';
   font-size: 14px;
+}
+/* Responsive - Better mobile experience */
+@media (max-width: 768px) {
+  .input-field {
+    gap: 8px;
+  }
+
+  .input-field label {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .input-field input {
+    padding: 12px 14px;
+    font-size: 16px;
+    min-height: 44px;
+    border-radius: 6px;
+  }
+
+  .input-field input:focus {
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+  }
+
+  .input-field .error-message {
+    font-size: 14px;
+  }
 }

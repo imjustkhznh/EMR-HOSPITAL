@@ -25,7 +25,8 @@
   font-size: 14px;
   font-family: inherit;
   transition: all 0.2s ease;
-  background-color: white;
+  background-color: #ffffff;
+  color: #333;
   cursor: pointer;
 }
 
@@ -63,4 +64,30 @@
 .select-field .error-message::before {
   content: '⚠';
   font-size: 14px;
+}
+/* Responsive - Better mobile experience */
+@media (max-width: 768px) {
+  .select-field {
+    gap: 8px;
+  }
+
+  .select-field label {
+    font-size: 15px;
+    font-weight: 600;
+  }
+
+  .select-field select {
+    padding: 12px 14px;
+    font-size: 16px;
+    min-height: 44px;
+    border-radius: 6px;
+  }
+
+  .select-field select:focus {
+    box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.15);
+  }
+
+  .select-field .error-message {
+    font-size: 14px;
+  }
 }

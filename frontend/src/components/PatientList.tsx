@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import type { Patient } from '../types/models';
 import { PatientCard } from './PatientCard';
 import PatientFormModal from './PatientFormModal';
+import Toast, { type ToastType } from './Toast';
 import './PatientList.css';
 
 interface PatientListProps {
@@ -16,6 +17,11 @@ export const PatientList: React.FC<PatientListProps> = ({ initialPatients = [], 
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingPatient, setEditingPatient] = useState<Patient | null>(null);
+  const [toast, setToast] = useState<{ message: string; type: ToastType; isVisible: boolean }>({
+    message: '',
+    type: 'success',
+    isVisible: false,
+  });
 
   // useEffect: Fetch patients on component mount
   useEffect(() => {
@@ -69,10 +75,10 @@ export const PatientList: React.FC<PatientListProps> = ({ initialPatients = [], 
     }, 800);
   };
 
-  // Filter patients by name (case-insensitive)
-  const filteredPatients = patients.filter((patient) =>
-    patient.name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // Show toast notification
+  const showToast = (message: string, type: ToastType = 'success') => {
+    setToast({ message, type, isVisible: true });
+  };
 
   // Handle adding new patient
   const handleAddPatient = (newPatientData: Omit<Patient, 'id'>) => {
@@ -84,6 +90,9 @@ export const PatientList: React.FC<PatientListProps> = ({ initialPatients = [], 
 
     // Update local state
     setPatients([...patients, newPatient]);
+
+    // Show success toast
+    showToast(`✓ Patient "${newPatient.name}" added successfully!`, 'success');
 
     // Call parent callback if provided
     if (onAddPatient) {
@@ -102,22 +111,40 @@ export const PatientList: React.FC<PatientListProps> = ({ initialPatients = [], 
   const handleUpdatePatient = (updatedPatient: Patient) => {
     setPatients(patients.map(p => p.id === updatedPatient.id ? updatedPatient : p));
     setEditingPatient(null);
+    showToast(`✓ Patient "${updatedPatient.name}" updated successfully!`, 'success');
     console.log('[PatientList] Patient updated:', updatedPatient);
   };
 
   // Handle deleting patient
   const handleDeletePatient = (patientId: string) => {
+    const deletedPatient = patients.find(p => p.id === patientId);
     setPatients(patients.filter(p => p.id !== patientId));
+    if (deletedPatient) {
+      showToast(`✓ Patient "${deletedPatient.name}" deleted successfully!`, 'success');
+    }
     console.log('[PatientList] Patient deleted:', patientId);
   };
 
+  // Filter patients by name (case-insensitive)
+  const filteredPatients = patients.filter((patient) =>
+    patient.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
     <div className="patient-list-container">
+      <Toast 
+        message={toast.message}
+        type={toast.type}
+        isVisible={toast.isVisible}
+        onClose={() => setToast({ ...toast, isVisible: false })}
+      />
+
       <div className="list-header">
         <h2>Patients</h2>
         <PatientFormModal 
           onAddPatient={handleAddPatient}
           onUpdatePatient={handleUpdatePatient}
+          onCloseEdit={() => setEditingPatient(null)}
           editingPatient={editingPatient}
         />
       </div>

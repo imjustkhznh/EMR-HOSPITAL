@@ -12,26 +12,34 @@ interface PatientFormProps {
   isEditMode?: boolean;
 }
 
-// Validation rules
+// Validation rules with Vietnamese phone format and strict age limits
 const validationRules = {
   name: [
     (value: string) => (!value?.trim() ? 'Name is required' : null),
     (value: string) => (value?.trim().length < 2 ? 'Name must be at least 2 characters' : null),
+    (value: string) => (value?.trim().length > 100 ? 'Name must be less than 100 characters' : null),
   ],
   age: [
     (value: string) => (!value ? 'Age is required' : null),
-    (value: string) => (isNaN(Number(value)) || Number(value) <= 0 ? 'Age must be a number greater than 0' : null),
-    (value: string) => (Number(value) > 150 ? 'Age must be less than 150' : null),
+    (value: string) => (isNaN(Number(value)) || Number(value) <= 0 ? 'Age must be a positive number' : null),
+    (value: string) => (Number(value) > 120 ? 'Age must be between 0 and 120' : null),
   ],
   gender: [
     (value: string) => (!value ? 'Gender is required' : null),
   ],
   phone: [
     (value: string) => (!value?.trim() ? 'Phone is required' : null),
-    (value: string) => (!/^\+?[0-9\s\-\(\)]{10,}$/.test(value) ? 'Phone format is invalid' : null),
+    // Vietnam phone format: +84, 0, or 84 followed by 9-10 digits
+    (value: string) => {
+      const vietnamPhoneRegex = /^(\+84|0)?[1-9]\d{8,9}$/;
+      return !vietnamPhoneRegex.test(value?.replace(/\s|-|\(|\)/g, '')) 
+        ? 'Invalid phone format (e.g., +84 987 654 321 or 0987654321)' 
+        : null;
+    },
   ],
   address: [
     (value: string) => (!value?.trim() ? 'Address is required' : null),
+    (value: string) => (value?.trim().length > 200 ? 'Address must be less than 200 characters' : null),
   ],
 };
 
@@ -52,7 +60,7 @@ export default function PatientForm({ onSubmit, onCancel, initialPatient, isEdit
         address: '',
       };
 
-  const { values, errors, handleChange, handleBlur, handleSubmit, reset } = useFormValidation(
+  const { values, errors, handleChange, handleBlur, handleSubmit, reset, isFormValid } = useFormValidation(
     initialValues,
     validationRules
   );
@@ -146,7 +154,7 @@ export default function PatientForm({ onSubmit, onCancel, initialPatient, isEdit
         </div>
 
         <div className="form-actions">
-          <Button type="submit" variant="primary" fullWidth>
+          <Button type="submit" variant="primary" fullWidth disabled={!isFormValid()}>
             {isEditMode ? '💾 Update Patient' : '✨ Add Patient'}
           </Button>
           {onCancel && (
