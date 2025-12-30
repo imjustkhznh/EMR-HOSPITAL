@@ -5,6 +5,13 @@ import type { Patient } from './types/models'
 import './App.css'
 
 function App() {
+  const [patients, setPatients] = useState<Patient[]>([]);
+
+  const handleAddPatient = (newPatient: Patient) => {
+    setPatients([...patients, newPatient]);
+    console.log('[App] Patient added to global state:', newPatient);
+  };
+
   return (
     <div className="app-container">
       <header className="app-header">
@@ -18,7 +25,7 @@ function App() {
             <h2>Patients</h2>
           </div>
           
-          <PatientList />
+          <PatientList initialPatients={patients} onAddPatient={handleAddPatient} />
         </section>
       </main>
 

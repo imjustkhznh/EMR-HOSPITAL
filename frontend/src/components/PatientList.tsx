@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import type { Patient } from '../types/models';
 import { PatientCard } from './PatientCard';
+import PatientForm from './PatientForm';
 import './PatientList.css';
 
 interface PatientListProps {
   initialPatients?: Patient[];
+  onAddPatient?: (patient: Patient) => void;
 }
 
-export const PatientList: React.FC<PatientListProps> = ({ initialPatients = [] }) => {
+export const PatientList: React.FC<PatientListProps> = ({ initialPatients = [], onAddPatient }) => {
   const [patients, setPatients] = useState<Patient[]>(initialPatients);
   const [showList, setShowList] = useState(true);
   const [isLoading, setIsLoading] = useState(true);
@@ -71,8 +73,31 @@ export const PatientList: React.FC<PatientListProps> = ({ initialPatients = [] }
     patient.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  // Handle adding new patient
+  const handleAddPatient = (newPatientData: Omit<Patient, 'id' | 'createdAt'>) => {
+    // Generate ID (in real app, backend would do this)
+    const newPatient: Patient = {
+      ...newPatientData,
+      id: Math.max(...patients.map(p => typeof p.id === 'number' ? p.id : 0), 0) + 1,
+      createdAt: new Date().toISOString(),
+    };
+
+    // Update local state
+    setPatients([...patients, newPatient]);
+
+    // Call parent callback if provided
+    if (onAddPatient) {
+      onAddPatient(newPatient);
+    }
+
+    console.log('[PatientList] New patient added:', newPatient);
+  };
+
   return (
     <div className="patient-list-container">
+      {/* Patient Form Section */}
+      <PatientForm onSubmit={handleAddPatient} />
+
       <div className="list-controls">
         <div className="search-box">
           <input
