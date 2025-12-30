@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { Patient } from '../types/models';
 import { PatientCard } from './PatientCard';
-import PatientForm from './PatientForm';
+import PatientFormModal from './PatientFormModal';
 import './PatientList.css';
 
 interface PatientListProps {
@@ -95,8 +95,10 @@ export const PatientList: React.FC<PatientListProps> = ({ initialPatients = [], 
 
   return (
     <div className="patient-list-container">
-      {/* Patient Form Section */}
-      <PatientForm onSubmit={handleAddPatient} />
+      <div className="list-header">
+        <h2>Patients</h2>
+        <PatientFormModal onAddPatient={handleAddPatient} />
+      </div>
 
       <div className="list-controls">
         <div className="search-box">

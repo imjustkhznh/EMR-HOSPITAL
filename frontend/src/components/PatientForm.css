@@ -31,8 +31,6 @@
   font-size: 14px;
 }
 
-.patient-form input,
-.patient-form select,
 .patient-form textarea {
   padding: 10px 12px;
   border: 1px solid #d0d0d0;
@@ -40,35 +38,21 @@
   font-size: 14px;
   font-family: inherit;
   transition: all 0.2s ease;
+  resize: vertical;
 }
 
-.patient-form input:focus,
-.patient-form select:focus,
 .patient-form textarea:focus {
   outline: none;
   border-color: #2563eb;
   box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
-.patient-form input:disabled,
-.patient-form select:disabled,
-.patient-form textarea:disabled {
-  background-color: #f0f0f0;
-  cursor: not-allowed;
-  color: #999;
-}
-
-/* Error state styling */
-.patient-form input.input-error,
-.patient-form select.input-error,
-.patient-form textarea.input-error {
+.patient-form textarea.textarea-error {
   border-color: #dc2626;
   background-color: #fef2f2;
 }
 
-.patient-form input.input-error:focus,
-.patient-form select.input-error:focus,
-.patient-form textarea.input-error:focus {
+.patient-form textarea.textarea-error:focus {
   border-color: #dc2626;
   box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
 }
@@ -87,51 +71,94 @@
   font-size: 14px;
 }
 
-.form-error-summary {
-  background-color: #fee2e2;
-  border: 1px solid #fecaca;
-  border-radius: 4px;
-  padding: 12px;
-  color: #991b1b;
-  font-size: 14px;
-  margin-top: 12px;
-}
-
-.form-error-summary p {
-  margin: 0;
-}
-
-.submit-button {
-  padding: 12px 24px;
-  background-color: #2563eb;
-  color: white;
-  border: none;
-  border-radius: 4px;
-  font-size: 14px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s ease;
+.form-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
   margin-top: 8px;
 }
 
-.submit-button:hover {
-  background-color: #1d4ed8;
-  transform: translateY(-1px);
-  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.3);
+.form-actions .btn {
+  width: 100%;
 }
 
-.submit-button:active {
-  transform: translateY(0);
-  box-shadow: 0 1px 4px rgba(37, 99, 235, 0.3);
+/* Modal styles */
+.form-modal-overlay {
+  display: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 20px;
 }
 
-.submit-button:disabled {
-  background-color: #9ca3af;
-  cursor: not-allowed;
-  transform: none;
+.form-modal-content {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 20px 25px rgba(0, 0, 0, 0.15);
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
 }
 
-/* Responsive layout for smaller screens */
+.form-modal-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 24px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.form-modal-header h2 {
+  margin: 0;
+  font-size: 20px;
+  color: #333;
+}
+
+.form-modal-close {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 4px;
+  transition: all 0.2s ease;
+}
+
+.form-modal-close:hover {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.form-modal-body {
+  padding: 24px;
+}
+
+.form-modal-body .patient-form-container {
+  margin: 0;
+  padding: 0;
+  background: none;
+  border: none;
+  box-shadow: none;
+}
+
+.form-modal-body .patient-form-container h2 {
+  display: none;
+}
+
+/* Responsive */
 @media (max-width: 768px) {
   .patient-form-container {
     padding: 16px;
@@ -146,8 +173,20 @@
     gap: 12px;
   }
 
-  .submit-button {
-    padding: 10px 16px;
-    font-size: 13px;
+  .form-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .form-modal-overlay {
+    padding: 16px;
+  }
+
+  .form-modal-header {
+    padding: 16px;
+  }
+
+  .form-modal-body {
+    padding: 16px;
   }
 }
+
