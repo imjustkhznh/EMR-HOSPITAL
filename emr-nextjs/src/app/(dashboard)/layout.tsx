@@ -10,10 +10,10 @@ export default function DashboardLayout({
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const menuItems = [
-    { label: "📊 Dashboard", href: "/dashboard" },
+    { label: "📊 Dashboard", href: "/dashboard/dashboard" },
     { label: "👥 Patients", href: "/dashboard/patients" },
+    { label: "📋 Medical Records", href: "/dashboard/medical-records" },
     { label: "🏥 Doctors", href: "/dashboard/doctors" },
-    { label: "📋 Medical Records", href: "/dashboard/records" },
   ];
 
   return (
