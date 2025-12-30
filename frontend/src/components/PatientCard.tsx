@@ -1,5 +1,5 @@
-import React from 'react';
-import { Patient } from '../types/models';
+
+import type { Patient } from '../types/models';
 import './PatientCard.css';
 
 interface PatientCardProps {

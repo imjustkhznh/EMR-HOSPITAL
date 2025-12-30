@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
-import { PatientCard } from './components/PatientCard'
-import { Patient } from './types/models'
+
+import { useState } from 'react'
+import { PatientList } from './components/PatientList'
+import type { Patient } from './types/models'
 import './App.css'
 
 function App() {
   // Hard-coded 3 patients for demo
-  const [patients] = useState<Patient[]>([
+  const patientData: Patient[] = [
     {
       id: '1',
       name: 'Nguyễn Văn A',
@@ -30,7 +31,7 @@ function App() {
       diagnosis: 'Diabetes',
       medicalRecordIds: ['mr4', 'mr5', 'mr6'],
     },
-  ])
+  ]
 
   return (
     <div className="app-container">
@@ -43,14 +44,9 @@ function App() {
         <section className="patients-section">
           <div className="section-header">
             <h2>Patients</h2>
-            <span className="patient-count">{patients.length} patients</span>
           </div>
           
-          <div className="patients-grid">
-            {patients.map((patient) => (
-              <PatientCard key={patient.id} patient={patient} />
-            ))}
-          </div>
+          <PatientList initialPatients={patientData} />
         </section>
       </main>
 
