@@ -5,25 +5,44 @@ import Button from './form/Button';
 import './PatientFormModal.css';
 
 interface PatientFormModalProps {
-  onAddPatient: (patient: Omit<Patient, 'id' | 'createdAt'>) => void;
+  onAddPatient: (patient: Omit<Patient, 'id'>) => void;
+  onUpdatePatient?: (patient: Patient) => void;
+  editingPatient?: Patient | null;
 }
 
-export default function PatientFormModal({ onAddPatient }: PatientFormModalProps) {
+export default function PatientFormModal({ 
+  onAddPatient, 
+  onUpdatePatient,
+  editingPatient 
+}: PatientFormModalProps) {
   const [isOpen, setIsOpen] = useState(false);
+  const isEditMode = !!editingPatient;
 
   const handleOpen = () => setIsOpen(true);
   const handleClose = () => setIsOpen(false);
 
-  const handleSubmit = (patient: Omit<Patient, 'id' | 'createdAt'>) => {
-    onAddPatient(patient);
+  const handleSubmit = (patient: Omit<Patient, 'id'>) => {
+    if (isEditMode && editingPatient) {
+      // Update existing patient
+      const updatedPatient: Patient = {
+        ...editingPatient,
+        ...patient,
+      };
+      onUpdatePatient?.(updatedPatient);
+    } else {
+      // Add new patient
+      onAddPatient(patient);
+    }
     handleClose();
   };
 
   return (
     <>
-      <Button variant="primary" onClick={handleOpen}>
-        ➕ Add New Patient
-      </Button>
+      {!isEditMode && (
+        <Button variant="primary" onClick={handleOpen}>
+          ➕ Add New Patient
+        </Button>
+      )}
 
       {isOpen && (
         <div className="form-modal-overlay" onClick={(e) => {
@@ -31,13 +50,18 @@ export default function PatientFormModal({ onAddPatient }: PatientFormModalProps
         }}>
           <div className="form-modal-content">
             <div className="form-modal-header">
-              <h2>Add New Patient</h2>
+              <h2>{isEditMode ? 'Edit Patient' : 'Add New Patient'}</h2>
               <button className="form-modal-close" onClick={handleClose}>
                 ✕
               </button>
             </div>
             <div className="form-modal-body">
-              <PatientForm onSubmit={handleSubmit} onCancel={handleClose} />
+              <PatientForm 
+                onSubmit={handleSubmit} 
+                onCancel={handleClose}
+                initialPatient={editingPatient || undefined}
+                isEditMode={isEditMode}
+              />
             </div>
           </div>
         </div>

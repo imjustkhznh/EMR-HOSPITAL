@@ -15,6 +15,7 @@ export const PatientList: React.FC<PatientListProps> = ({ initialPatients = [], 
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [searchTerm, setSearchTerm] = useState('');
+  const [editingPatient, setEditingPatient] = useState<Patient | null>(null);
 
   // useEffect: Fetch patients on component mount
   useEffect(() => {
@@ -74,12 +75,11 @@ export const PatientList: React.FC<PatientListProps> = ({ initialPatients = [], 
   );
 
   // Handle adding new patient
-  const handleAddPatient = (newPatientData: Omit<Patient, 'id' | 'createdAt'>) => {
+  const handleAddPatient = (newPatientData: Omit<Patient, 'id'>) => {
     // Generate ID (in real app, backend would do this)
     const newPatient: Patient = {
       ...newPatientData,
-      id: Math.max(...patients.map(p => typeof p.id === 'number' ? p.id : 0), 0) + 1,
-      createdAt: new Date().toISOString(),
+      id: String(Date.now()),
     };
 
     // Update local state
@@ -93,11 +93,33 @@ export const PatientList: React.FC<PatientListProps> = ({ initialPatients = [], 
     console.log('[PatientList] New patient added:', newPatient);
   };
 
+  // Handle editing patient
+  const handleEditPatient = (patient: Patient) => {
+    setEditingPatient(patient);
+  };
+
+  // Handle updating patient
+  const handleUpdatePatient = (updatedPatient: Patient) => {
+    setPatients(patients.map(p => p.id === updatedPatient.id ? updatedPatient : p));
+    setEditingPatient(null);
+    console.log('[PatientList] Patient updated:', updatedPatient);
+  };
+
+  // Handle deleting patient
+  const handleDeletePatient = (patientId: string) => {
+    setPatients(patients.filter(p => p.id !== patientId));
+    console.log('[PatientList] Patient deleted:', patientId);
+  };
+
   return (
     <div className="patient-list-container">
       <div className="list-header">
         <h2>Patients</h2>
-        <PatientFormModal onAddPatient={handleAddPatient} />
+        <PatientFormModal 
+          onAddPatient={handleAddPatient}
+          onUpdatePatient={handleUpdatePatient}
+          editingPatient={editingPatient}
+        />
       </div>
 
       <div className="list-controls">
@@ -156,7 +178,12 @@ export const PatientList: React.FC<PatientListProps> = ({ initialPatients = [], 
           {filteredPatients.length > 0 ? (
             <div className="patients-grid">
               {filteredPatients.map((patient) => (
-                <PatientCard key={patient.id} patient={patient} />
+                <PatientCard 
+                  key={patient.id} 
+                  patient={patient}
+                  onEdit={handleEditPatient}
+                  onDelete={handleDeletePatient}
+                />
               ))}
             </div>
           ) : (

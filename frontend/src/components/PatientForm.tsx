@@ -6,8 +6,10 @@ import { useFormValidation, type FormValues } from '../hooks/useFormValidation';
 import './PatientForm.css';
 
 interface PatientFormProps {
-  onSubmit: (patient: Omit<Patient, 'id' | 'createdAt'>) => void;
+  onSubmit: (patient: Omit<Patient, 'id'>) => void;
   onCancel?: () => void;
+  initialPatient?: Patient;
+  isEditMode?: boolean;
 }
 
 // Validation rules
@@ -33,14 +35,22 @@ const validationRules = {
   ],
 };
 
-export default function PatientForm({ onSubmit, onCancel }: PatientFormProps) {
-  const initialValues: FormValues = {
-    name: '',
-    age: '',
-    gender: 'Male',
-    phone: '',
-    address: '',
-  };
+export default function PatientForm({ onSubmit, onCancel, initialPatient, isEditMode }: PatientFormProps) {
+  const initialValues: FormValues = initialPatient
+    ? {
+        name: initialPatient.name,
+        age: String(initialPatient.age),
+        gender: initialPatient.gender,
+        phone: initialPatient.phone,
+        address: initialPatient.address,
+      }
+    : {
+        name: '',
+        age: '',
+        gender: 'male',
+        phone: '',
+        address: '',
+      };
 
   const { values, errors, handleChange, handleBlur, handleSubmit, reset } = useFormValidation(
     initialValues,
@@ -48,10 +58,10 @@ export default function PatientForm({ onSubmit, onCancel }: PatientFormProps) {
   );
 
   const handleFormSubmit = handleSubmit((formValues) => {
-    const newPatient: Omit<Patient, 'id' | 'createdAt'> = {
+    const newPatient: Omit<Patient, 'id'> = {
       name: String(formValues.name).trim(),
       age: Number(formValues.age),
-      gender: String(formValues.gender) as 'Male' | 'Female' | 'Other',
+      gender: String(formValues.gender).toLowerCase() as 'male' | 'female' | 'other',
       phone: String(formValues.phone).trim(),
       address: String(formValues.address).trim(),
     };
@@ -67,7 +77,7 @@ export default function PatientForm({ onSubmit, onCancel }: PatientFormProps) {
 
   return (
     <div className="patient-form-container">
-      <h2>Add New Patient</h2>
+      <h2>{isEditMode ? 'Edit Patient' : 'Add New Patient'}</h2>
       <form onSubmit={handleFormSubmit} className="patient-form">
         <InputField
           id="name"
@@ -99,9 +109,9 @@ export default function PatientForm({ onSubmit, onCancel }: PatientFormProps) {
           value={String(values.gender)}
           onChange={handleChange('gender')}
           options={[
-            { value: 'Male', label: 'Male' },
-            { value: 'Female', label: 'Female' },
-            { value: 'Other', label: 'Other' },
+            { value: 'male', label: 'Male' },
+            { value: 'female', label: 'Female' },
+            { value: 'other', label: 'Other' },
           ]}
           error={errors.gender}
           required={true}
@@ -137,7 +147,7 @@ export default function PatientForm({ onSubmit, onCancel }: PatientFormProps) {
 
         <div className="form-actions">
           <Button type="submit" variant="primary" fullWidth>
-            Add Patient
+            {isEditMode ? '💾 Update Patient' : '✨ Add Patient'}
           </Button>
           {onCancel && (
             <Button type="button" variant="secondary" fullWidth onClick={handleCancel}>

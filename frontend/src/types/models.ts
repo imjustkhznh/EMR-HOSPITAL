@@ -5,6 +5,8 @@ export interface Patient {
   name: string;
   age: number;
   gender: 'male' | 'female' | 'other';
+  phone: string;
+  address: string;
   diagnosis?: string;
   medicalRecordIds?: string[];
 }

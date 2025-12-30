@@ -4,9 +4,17 @@ import './PatientCard.css';
 
 interface PatientCardProps {
   patient: Patient;
+  onEdit?: (patient: Patient) => void;
+  onDelete?: (patientId: string) => void;
 }
 
-export const PatientCard: React.FC<PatientCardProps> = ({ patient }) => {
+export const PatientCard: React.FC<PatientCardProps> = ({ patient, onEdit, onDelete }) => {
+  const handleDelete = () => {
+    if (confirm(`Are you sure you want to delete ${patient.name}?`)) {
+      onDelete?.(patient.id);
+    }
+  };
+
   return (
     <div className="patient-card">
       <div className="card-header">
@@ -23,6 +31,16 @@ export const PatientCard: React.FC<PatientCardProps> = ({ patient }) => {
         <div className="info-row">
           <label>Gender:</label>
           <span className="gender-badge">{patient.gender}</span>
+        </div>
+
+        <div className="info-row">
+          <label>Phone:</label>
+          <span>{patient.phone}</span>
+        </div>
+
+        <div className="info-row">
+          <label>Address:</label>
+          <span>{patient.address}</span>
         </div>
         
         {patient.diagnosis && (
@@ -41,8 +59,12 @@ export const PatientCard: React.FC<PatientCardProps> = ({ patient }) => {
       </div>
       
       <div className="card-footer">
-        <button className="btn btn-primary">View Details</button>
-        <button className="btn btn-secondary">Edit</button>
+        <button className="btn btn-primary" onClick={() => onEdit?.(patient)}>
+          ✎ Edit
+        </button>
+        <button className="btn btn-danger" onClick={handleDelete}>
+          ✕ Delete
+        </button>
       </div>
     </div>
   );
