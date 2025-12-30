@@ -1,0 +1,57 @@
+[
+  {
+    "id": "1",
+    "name": "Nguyễn Văn A",
+    "age": 45,
+    "gender": "Nam",
+    "phone": "0912345678",
+    "address": "123 Đường Nguyễn Huệ, TP.HCM",
+    "email": "nguyen.van.a@email.com",
+    "dateOfBirth": "1979-03-15",
+    "medicalHistory": "Tiểu đường, huyết áp cao"
+  },
+  {
+    "id": "2",
+    "name": "Trần Thị B",
+    "age": 32,
+    "gender": "Nữ",
+    "phone": "0987654321",
+    "address": "456 Đường Lý Tự Trọng, TP.HCM",
+    "email": "tran.thi.b@email.com",
+    "dateOfBirth": "1992-07-22",
+    "medicalHistory": "Hen suyễn, dị ứng"
+  },
+  {
+    "id": "3",
+    "name": "Phạm Văn C",
+    "age": 58,
+    "gender": "Nam",
+    "phone": "0901234567",
+    "address": "789 Đường Hoàng Văn Thụ, TP.HCM",
+    "email": "pham.van.c@email.com",
+    "dateOfBirth": "1966-11-08",
+    "medicalHistory": "Tim mạch, không ổn định"
+  },
+  {
+    "id": "4",
+    "name": "Lê Thị D",
+    "age": 28,
+    "gender": "Nữ",
+    "phone": "0923456789",
+    "address": "321 Đường Trần Hưng Đạo, TP.HCM",
+    "email": "le.thi.d@email.com",
+    "dateOfBirth": "1996-05-17",
+    "medicalHistory": "Khỏe mạnh"
+  },
+  {
+    "id": "5",
+    "name": "Hoàng Văn E",
+    "age": 65,
+    "gender": "Nam",
+    "phone": "0945678901",
+    "address": "654 Đường Đinh Tiên Hoàng, TP.HCM",
+    "email": "hoang.van.e@email.com",
+    "dateOfBirth": "1959-09-30",
+    "medicalHistory": "Thoái hóa khớp, loãng xương"
+  }
+]

@@ -1,0 +1,117 @@
+{
+  "1": {
+    "id": "1",
+    "patientId": "1",
+    "patientName": "Nguyễn Văn A",
+    "visits": [
+      {
+        "id": "v1",
+        "date": "2025-01-28",
+        "diagnosis": "Tiểu đường type 2",
+        "doctor": "Dr. Trần Văn X",
+        "prescription": "Metformin 500mg x2",
+        "notes": "Kiểm tra định kỳ, chỉ số đường huyết ổn định"
+      },
+      {
+        "id": "v2",
+        "date": "2025-01-15",
+        "diagnosis": "Kiểm tra tổng quát",
+        "doctor": "Dr. Hoàng Thị Y",
+        "prescription": "Không",
+        "notes": "Sức khỏe chung ổn định, cần tiếp tục theo dõi"
+      },
+      {
+        "id": "v3",
+        "date": "2024-12-20",
+        "diagnosis": "Huyết áp cao",
+        "doctor": "Dr. Lê Văn Z",
+        "prescription": "Amlodipine 5mg x1",
+        "notes": "Huyết áp chưa kiểm soát tốt, cần đo lại"
+      }
+    ]
+  },
+  "2": {
+    "id": "2",
+    "patientId": "2",
+    "patientName": "Trần Thị B",
+    "visits": [
+      {
+        "id": "v4",
+        "date": "2025-02-10",
+        "diagnosis": "Hen suyễn",
+        "doctor": "Dr. Nguyễn Văn P",
+        "prescription": "Salbutamol inhaler",
+        "notes": "Tình trạng ổn định, khuyên tránh các chất kích thích"
+      },
+      {
+        "id": "v5",
+        "date": "2025-01-05",
+        "diagnosis": "Dị ứng mùa",
+        "doctor": "Dr. Phạm Thị Q",
+        "prescription": "Cetirizine 10mg x1",
+        "notes": "Dị ứng do pollen, hổ trợ thuốc kháng histamine"
+      }
+    ]
+  },
+  "3": {
+    "id": "3",
+    "patientId": "3",
+    "patientName": "Phạm Văn C",
+    "visits": [
+      {
+        "id": "v6",
+        "date": "2025-02-05",
+        "diagnosis": "Bệnh tim thiếu máu cơ tim",
+        "doctor": "Dr. Đặng Văn R",
+        "prescription": "Aspirin 100mg, Lisinopril 10mg",
+        "notes": "Cần giám sát chặt chẽ, lịch tái khám 1 tuần"
+      },
+      {
+        "id": "v7",
+        "date": "2025-01-20",
+        "diagnosis": "Rối loạn nhịp tim",
+        "doctor": "Dr. Tô Thị S",
+        "prescription": "Metoprolol 50mg x2",
+        "notes": "EKG bình thường, tiếp tục theo dõi"
+      }
+    ]
+  },
+  "4": {
+    "id": "4",
+    "patientId": "4",
+    "patientName": "Lê Thị D",
+    "visits": [
+      {
+        "id": "v8",
+        "date": "2025-02-15",
+        "diagnosis": "Kiểm tra sức khỏe định kỳ",
+        "doctor": "Dr. Vũ Văn T",
+        "prescription": "Không",
+        "notes": "Tất cả chỉ số bình thường, khỏe mạnh"
+      }
+    ]
+  },
+  "5": {
+    "id": "5",
+    "patientId": "5",
+    "patientName": "Hoàng Văn E",
+    "visits": [
+      {
+        "id": "v9",
+        "date": "2025-02-01",
+        "diagnosis": "Thoái hóa khớp gối",
+        "doctor": "Dr. Bùi Thị U",
+        "prescription": "Glucosamine 1500mg, Ibuprofen 400mg",
+        "notes": "Liệu pháp vật lý trị liệu được khuyên cáo"
+      },
+      {
+        "id": "v10",
+        "date": "2025-01-10",
+        "diagnosis": "Loãng xương",
+        "doctor": "Dr. Cao Văn V",
+        "prescription": "Calcium + Vitamin D3",
+        "notes": "Cần bổ sung canxi, tập thể dục nhẹ nhàng"
+      }
+    ]
+  }
+}

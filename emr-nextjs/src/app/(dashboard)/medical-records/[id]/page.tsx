@@ -1,42 +1,89 @@
-"use client";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { Metadata } from "next";
 
-// Mock data - trong thực tế sẽ fetch từ API
-const mockMedicalRecords = {
-  "1": {
-    patient: { id: "1", name: "Nguyễn Văn A", age: 35, gender: "male", phone: "0912345678", address: "Hà Nội" },
-    records: [
-      { id: "mr1", date: "2025-12-30", diagnosis: "Cảm cúm", prescription: "Paracetamol 500mg", notes: "Nghỉ ngơi 3 ngày" },
-      { id: "mr2", date: "2025-12-20", diagnosis: "Viêm họng", prescription: "Kháng sinh", notes: "Uống thuốc đầy đủ" },
-    ]
-  },
-  "2": {
-    patient: { id: "2", name: "Phạm Thị B", age: 28, gender: "female", phone: "0987654321", address: "TP.HCM" },
-    records: [
-      { id: "mr3", date: "2025-12-25", diagnosis: "Sốt cao", prescription: "Aspirin", notes: "Tái khám sau 5 ngày" },
-    ]
-  },
-  "3": {
-    patient: { id: "3", name: "Lý Văn C", age: 45, gender: "male", phone: "0901234567", address: "Đà Nẵng" },
-    records: [
-      { id: "mr4", date: "2025-12-28", diagnosis: "Cao huyết áp", prescription: "Thuốc huyết áp", notes: "Kiểm tra định kỳ" },
-    ]
-  },
-};
+interface Patient {
+  id: string;
+  name: string;
+  age: number;
+  gender: string;
+  phone: string;
+  address: string;
+  email?: string;
+  dateOfBirth?: string;
+  medicalHistory?: string;
+}
 
-export default function MedicalRecordDetailPage({
+interface Visit {
+  id: string;
+  date: string;
+  diagnosis: string;
+  doctor: string;
+  prescription: string;
+  notes: string;
+}
+
+interface MedicalRecord {
+  id: string;
+  patientId: string;
+  patientName: string;
+  visits: Visit[];
+}
+
+async function getMedicalRecord(id: string): Promise<MedicalRecord | null> {
+  // SSR: Fetch data at request time
+  try {
+    const records = await import("@/data/medical-records.json").then((m) => m.default);
+    return records[id as keyof typeof records] || null;
+  } catch {
+    return null;
+  }
+}
+
+async function getPatient(id: string): Promise<Patient | null> {
+  try {
+    const patients = await import("@/data/patients.json").then((m) => m.default);
+    return patients.find((p: Patient) => p.id === id) || null;
+  } catch {
+    return null;
+  }
+}
+
+// Dynamic metadata generation for SEO
+export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
+  const medicalRecord = await getMedicalRecord(params.id);
+
+  if (!medicalRecord) {
+    return {
+      title: "Hồ sơ không tìm thấy",
+      description: "Medical record not found",
+    };
+  }
+
+  return {
+    title: `Hồ sơ bệnh án - ${medicalRecord.patientName}`,
+    description: `Chi tiết y tế và lịch sử khám bệnh của ${medicalRecord.patientName}`,
+    openGraph: {
+      title: `Hồ sơ bệnh án - ${medicalRecord.patientName}`,
+      description: `Chi tiết y tế của bệnh nhân`,
+      type: "website",
+    },
+  };
+}
+
+export default async function MedicalRecordDetailPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const record = mockMedicalRecords[params.id as keyof typeof mockMedicalRecords];
+  const medicalRecord = await getMedicalRecord(params.id);
+  const patient = await getPatient(params.id);
 
-  if (!record) {
+  if (!medicalRecord || !patient) {
     return notFound();
   }
 
-  const { patient, records } = record;
+  const { visits } = medicalRecord;
 
   return (
     <div className="space-y-8">
@@ -68,9 +115,7 @@ export default function MedicalRecordDetailPage({
           </div>
           <div>
             <p className="text-gray-600 text-sm font-medium">Giới tính</p>
-            <p className="text-lg font-semibold text-gray-900">
-              {patient.gender === "male" ? "Nam" : "Nữ"}
-            </p>
+            <p className="text-lg font-semibold text-gray-900">{patient.gender}</p>
           </div>
           <div>
             <p className="text-gray-600 text-sm font-medium">Số điện thoại</p>
@@ -80,6 +125,12 @@ export default function MedicalRecordDetailPage({
             <p className="text-gray-600 text-sm font-medium">Địa chỉ</p>
             <p className="text-lg font-semibold text-gray-900">{patient.address}</p>
           </div>
+          {patient.medicalHistory && (
+            <div>
+              <p className="text-gray-600 text-sm font-medium">Tiền sử bệnh</p>
+              <p className="text-lg font-semibold text-gray-900">{patient.medicalHistory}</p>
+            </div>
+          )}
         </div>
       </div>
 
@@ -87,33 +138,44 @@ export default function MedicalRecordDetailPage({
       <div className="bg-white rounded-lg shadow-md p-8">
         <h2 className="text-2xl font-bold text-gray-900 mb-6">📝 Lịch sử khám</h2>
         <div className="space-y-4">
-          {records.map((rec) => (
-            <div
-              key={rec.id}
-              className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition"
-            >
-              <div className="flex items-start justify-between mb-4">
-                <div>
-                  <p className="text-sm text-gray-500">{rec.date}</p>
-                  <p className="text-xl font-bold text-gray-900">{rec.diagnosis}</p>
+          {visits && visits.length > 0 ? (
+            visits.map((visit) => (
+              <div
+                key={visit.id}
+                className="border border-gray-200 rounded-lg p-6 hover:shadow-md transition"
+              >
+                <div className="flex items-start justify-between mb-4">
+                  <div>
+                    <p className="text-sm text-gray-500">{visit.date}</p>
+                    <p className="text-xl font-bold text-gray-900">{visit.diagnosis}</p>
+                  </div>
+                  <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+                    {visit.doctor}
+                  </span>
                 </div>
-                <span className="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
-                  Đã khám
-                </span>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <p className="text-gray-600 text-sm font-medium">Đơn thuốc</p>
+                    <p className="text-gray-900 mt-1">{visit.prescription}</p>
+                  </div>
+                  <div>
+                    <p className="text-gray-600 text-sm font-medium">Ghi chú</p>
+                    <p className="text-gray-900 mt-1">{visit.notes}</p>
+                  </div>
+                </div>
               </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div>
-                  <p className="text-gray-600 text-sm font-medium">Đơn thuốc</p>
-                  <p className="text-gray-900 mt-1">{rec.prescription}</p>
-                </div>
-                <div>
-                  <p className="text-gray-600 text-sm font-medium">Ghi chú</p>
-                  <p className="text-gray-900 mt-1">{rec.notes}</p>
-                </div>
-              </div>
-            </div>
-          ))}
+            ))
+          ) : (
+            <p className="text-gray-600">Không có lịch sử khám bệnh</p>
+          )}
         </div>
+      </div>
+
+      {/* SSR Info */}
+      <div className="bg-green-50 border border-green-200 rounded-lg p-4">
+        <p className="text-sm text-green-700">
+          <strong>✅ Dynamic SSR with generateMetadata:</strong> This page is rendered server-side with dynamic metadata. The title includes the patient name for better SEO.
+        </p>
       </div>
 
       {/* Action Buttons */}
