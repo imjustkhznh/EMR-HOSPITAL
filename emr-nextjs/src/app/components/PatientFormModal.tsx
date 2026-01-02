@@ -1,78 +1,95 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Patient } from '../../types/models';
 import PatientForm from './PatientForm';
 import Toast, { type ToastType } from './Toast';
 import './PatientFormModal.css';
 
 interface PatientFormModalProps {
-  isOpen: boolean;
-  onClose: () => void;
-  onSubmit: (patient: Omit<Patient, 'id'>) => Promise<void>;
-  initialPatient?: Patient;
-  isEditMode?: boolean;
-  title?: string;
+  onAddPatient: (patient: Omit<Patient, 'id'>) => void;
+  onUpdatePatient?: (patient: Patient) => void;
+  onCloseEdit?: () => void;
+  editingPatient?: Patient | null;
 }
 
-export default function PatientFormModal({
-  isOpen,
-  onClose,
-  onSubmit,
-  initialPatient,
-  isEditMode = false,
-  title,
+export default function PatientFormModal({ 
+  onAddPatient, 
+  onUpdatePatient,
+  onCloseEdit,
+  editingPatient 
 }: PatientFormModalProps) {
+  const [isOpen, setIsOpen] = useState(false);
   const [toastMessage, setToastMessage] = useState<string>('');
   const [toastType, setToastType] = useState<ToastType>('success');
   const [showToast, setShowToast] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+  const isEditMode = !!editingPatient;
 
-  const handleSubmit = async (patient: Omit<Patient, 'id'>) => {
-    try {
-      setIsSubmitting(true);
-      await onSubmit(patient);
-      
-      const successMessage = isEditMode 
-        ? 'Patient updated successfully! ✅' 
-        : 'Patient added successfully! ✅';
-      
-      setToastMessage(successMessage);
-      setToastType('success');
-      setShowToast(true);
-
-      // Close modal after 2 seconds
-      setTimeout(() => {
-        onClose();
-        setShowToast(false);
-      }, 2000);
-    } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'An error occurred';
-      setToastMessage(`Error: ${errorMessage}`);
-      setToastType('error');
-      setShowToast(true);
-    } finally {
-      setIsSubmitting(false);
+  // Auto-open modal when editingPatient is set
+  useEffect(() => {
+    if (editingPatient) {
+      setIsOpen(true);
     }
+  }, [editingPatient]);
+
+  const handleOpen = () => setIsOpen(true);
+  const handleClose = () => {
+    setIsOpen(false);
+    onCloseEdit?.();
   };
 
-  if (!isOpen) return null;
+  const handleSubmit = (patient: Omit<Patient, 'id'>) => {
+    if (isEditMode && editingPatient) {
+      // Update existing patient
+      const updatedPatient: Patient = {
+        ...editingPatient,
+        ...patient,
+      };
+      onUpdatePatient?.(updatedPatient);
+      setToastMessage(`Patient "${updatedPatient.name}" updated successfully! ✅`);
+      setToastType('success');
+    } else {
+      // Add new patient
+      onAddPatient(patient);
+      setToastMessage(`Patient "${patient.name}" added successfully! ✅`);
+      setToastType('success');
+    }
+
+    setShowToast(true);
+    
+    // Close modal after 2 seconds
+    setTimeout(() => {
+      handleClose();
+      setShowToast(false);
+    }, 2000);
+  };
+
+  if (!isOpen) {
+    return (
+      <button
+        onClick={handleOpen}
+        className="btn-add-patient"
+        aria-label="Add new patient"
+      >
+        ➕ Add Patient
+      </button>
+    );
+  }
 
   return (
     <>
-      <div className="modal-overlay" onClick={onClose} aria-hidden="true" />
+      <div className="modal-overlay" onClick={handleClose} aria-hidden="true" />
       <div className="modal-dialog" role="dialog" aria-modal="true" aria-labelledby="modal-title">
         <div className="modal-content">
           <div className="modal-header">
             <h2 id="modal-title">
-              {title || (isEditMode ? 'Edit Patient' : 'Add New Patient')}
+              {isEditMode ? 'Edit Patient' : 'Add New Patient'}
             </h2>
             <button
               type="button"
-              onClick={onClose}
+              onClick={handleClose}
               className="modal-close"
               aria-label="Close modal"
-              disabled={isSubmitting}
             >
               ✕
             </button>
@@ -80,8 +97,8 @@ export default function PatientFormModal({
           <div className="modal-body">
             <PatientForm
               onSubmit={handleSubmit}
-              onCancel={onClose}
-              initialPatient={initialPatient}
+              onCancel={handleClose}
+              initialPatient={editingPatient || undefined}
               isEditMode={isEditMode}
             />
           </div>
