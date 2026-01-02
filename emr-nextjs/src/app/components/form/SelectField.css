@@ -1,1 +1,70 @@
-/* ...existing code from frontend/src/components/form/SelectField.css... */
+.select-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.select-field label {
+  font-weight: 500;
+  color: #333;
+  font-size: 14px;
+  letter-spacing: 0.3px;
+}
+
+.select-field select {
+  padding: 10px 12px;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  font-family: inherit;
+  background-color: white;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  appearance: none;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: right 8px center;
+  background-size: 20px;
+  padding-right: 32px;
+}
+
+.select-field select:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+.select-field select:disabled {
+  background-color: #f3f4f6;
+  color: #9ca3af;
+  cursor: not-allowed;
+}
+
+.select-field select.select-error {
+  border-color: #dc2626;
+  background-color: #fef2f2;
+}
+
+.select-field select.select-error:focus {
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1);
+}
+
+.error-message {
+  color: #dc2626;
+  font-size: 12px;
+  font-weight: 500;
+  margin-top: -4px;
+}
+
+.required {
+  color: #dc2626;
+  font-weight: bold;
+}
+
+@media (max-width: 480px) {
+  .select-field select {
+    padding: 12px;
+    padding-right: 36px;
+    font-size: 16px;
+  }
+}
