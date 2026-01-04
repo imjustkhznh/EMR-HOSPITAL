@@ -43,7 +43,7 @@ export default function LoginPage() {
       document.cookie = `authToken=${token}; path=/; max-age=86400; SameSite=Lax`;
 
       // Redirect to dashboard
-      router.push("/dashboard/dashboard");
+      router.push("/dashboard");
     } catch (err) {
       setError("Login failed. Please try again.");
     } finally {

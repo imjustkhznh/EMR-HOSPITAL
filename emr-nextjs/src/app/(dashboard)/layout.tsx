@@ -1,6 +1,15 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
-import LogoutButton from "@/app/components/LogoutButton";
+import type { Metadata } from "next";
+import LogoutButton from "../components/LogoutButton";
+
+export const metadata: Metadata = {
+  title: {
+    default: "Dashboard | EMR Hospital",
+    template: "%s | EMR Hospital",
+  },
+  description: "Hospital Dashboard - Quản lý bệnh nhân, hồ sơ y tế, và thông tin bác sĩ",
+};
 
 // Dashboard layout - Server Component
 export default function DashboardLayout({
@@ -9,7 +18,7 @@ export default function DashboardLayout({
   children: ReactNode;
 }) {
   const menuItems = [
-    { label: "Dashboard", href: "/dashboard/dashboard" },
+    { label: "Dashboard", href: "/dashboard" },
     { label: "Patients", href: "/dashboard/patients" },
     { label: "Medical Records", href: "/dashboard/medical-records" },
     { label: "Doctors", href: "/dashboard/doctors" },

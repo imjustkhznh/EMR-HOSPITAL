@@ -14,22 +14,17 @@ export function middleware(request: NextRequest) {
     pathname.startsWith(route)
   );
 
-  // Allow all access during development
-  // TODO: Change this to require auth in production
-  return NextResponse.next();
-
-  // Production auth check (commented out for development)
-  /*
+  // Auth guard: redirect to login if accessing protected route without token
   if (isProtectedRoute && !token) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
+  // If already logged in and accessing login page, redirect to dashboard
   if (pathname === "/auth/login" && token) {
-    return NextResponse.redirect(new URL("/dashboard/dashboard", request.url));
+    return NextResponse.redirect(new URL("/dashboard", request.url));
   }
 
   return NextResponse.next();
-  */
 }
 
 // Configure which routes use middleware

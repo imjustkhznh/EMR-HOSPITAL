@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import type { Patient } from '../../types/models';
 import './PatientCard.css';
 
@@ -19,8 +20,22 @@ export function PatientCard({ patient, onEdit, onDelete }: PatientCardProps) {
   return (
     <div className="patient-card">
       <div className="card-header">
-        <h2 className="patient-name">{patient.name}</h2>
-        <span className="patient-id">ID: {patient.id}</span>
+        <div className="patient-avatar-wrapper">
+          <Image
+            src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${patient.id}`}
+            alt={`${patient.name}'s avatar`}
+            width={50}
+            height={50}
+            className="patient-avatar"
+            placeholder="blur"
+            blurDataURL="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 50 50'%3E%3Crect fill='%23f0f0f0' width='50' height='50'/%3E%3C/svg%3E"
+            priority={false}
+          />
+        </div>
+        <div className="patient-info-header">
+          <h2 className="patient-name">{patient.name}</h2>
+          <span className="patient-id">ID: {patient.id}</span>
+        </div>
       </div>
       
       <div className="card-body">

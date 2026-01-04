@@ -1,5 +1,16 @@
-"use client";
 import Link from "next/link";
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "EMR Hospital - Quản lý Bệnh nhân",
+  description: "Electronic Medical Records System - Hệ thống quản lý bệnh nhân chuyên nghiệp với ghi chép y tế điện tử, quản lý hồ sơ bệnh nhân và lịch sử khám bệnh",
+  openGraph: {
+    title: "EMR Hospital - Quản lý Bệnh nhân",
+    description: "Hệ thống quản lý bệnh nhân chuyên nghiệp",
+    images: ["/og-image.jpg"],
+    type: "website",
+  },
+};
 
 export default function HomePage() {
   return (
