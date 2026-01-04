@@ -1,25 +1,38 @@
 .patient-card {
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  padding: 16px;
+  border: 1px solid #e5e7eb;
+  border-radius: 12px;
+  padding: 20px;
   margin: 8px;
-  background-color: #ffffff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  transition: all 0.3s ease;
+  background: linear-gradient(135deg, #ffffff 0%, #f9fafb 100%);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+.patient-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #3b82f6, #2563eb);
+  transition: height 0.3s ease;
 }
 
 .patient-card:hover {
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
-  transform: translateY(-2px);
+  box-shadow: 0 12px 24px rgba(59, 130, 246, 0.15);
+  transform: translateY(-4px);
+  border-color: #3b82f6;
 }
 
 .card-header {
   display: flex;
   align-items: center;
   gap: 16px;
-  margin-bottom: 16px;
-  padding-bottom: 12px;
-  border-bottom: 2px solid #f5f5f5;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 2px solid #f3f4f6;
 }
 
 .patient-avatar-wrapper {
@@ -29,7 +42,8 @@
 .patient-avatar {
   border-radius: 50%;
   object-fit: cover;
-  border: 2px solid #e0e0e0;
+  border: 3px solid #e5e7eb;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .patient-info-header {
@@ -39,100 +53,114 @@
 .patient-name {
   margin: 0;
   font-size: 18px;
-  font-weight: 600;
-  color: #1a1a1a;
+  font-weight: 700;
+  color: #111827;
+  letter-spacing: -0.5px;
 }
 
 .patient-id {
   display: block;
   font-size: 12px;
-  color: #888;
-  margin-top: 2px;
+  color: #6b7280;
+  margin-top: 4px;
   font-weight: 500;
 }
 
 .card-body {
-  margin: 12px 0;
+  margin: 16px 0;
 }
 
 .info-row {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 8px 0;
-  border-bottom: 1px solid #f5f5f5;
+  padding: 12px 0;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+.info-row:last-child {
+  border-bottom: none;
 }
 
 .info-row label {
   font-weight: 600;
-  color: #666;
+  color: #6b7280;
   font-size: 13px;
   min-width: 100px;
+  letter-spacing: 0.3px;
 }
 
 .info-row span {
-  color: #1a1a1a;
+  color: #1f2937;
   text-align: right;
   flex: 1;
   margin-left: 12px;
+  font-weight: 500;
 }
 
 .gender-badge {
-  background-color: #e3f2fd;
-  color: #1976d2;
-  padding: 4px 12px;
-  border-radius: 16px;
+  background: linear-gradient(135deg, #dbeafe, #bfdbfe);
+  color: #1e40af;
+  padding: 6px 14px;
+  border-radius: 20px;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   display: inline-block;
+  border: 1px solid #93c5fd;
 }
 
 .diagnosis {
-  color: #d32f2f;
-  font-weight: 500;
-  background-color: #ffebee;
-  padding: 4px 8px;
-  border-radius: 4px;
+  color: #7f1d1d;
+  font-weight: 600;
+  background: linear-gradient(135deg, #fee2e2, #fecaca);
+  padding: 6px 12px;
+  border-radius: 6px;
+  border: 1px solid #fca5a5;
 }
 
 .card-footer {
   display: flex;
-  gap: 8px;
-  margin-top: 12px;
-  padding-top: 12px;
-  border-top: 1px solid #f5f5f5;
+  gap: 10px;
+  margin-top: 16px;
+  padding-top: 16px;
+  border-top: 1px solid #f3f4f6;
 }
 
 .btn-edit,
 .btn-delete {
   flex: 1;
-  padding: 8px 12px;
+  padding: 10px 16px;
   border: none;
-  border-radius: 4px;
+  border-radius: 8px;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   transition: all 0.2s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .btn-edit {
-  background-color: #1976d2;
+  background: linear-gradient(135deg, #3b82f6, #2563eb);
   color: white;
 }
 
 .btn-edit:hover {
-  background-color: #1565c0;
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #2563eb, #1d4ed8);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(59, 130, 246, 0.3);
 }
 
 .btn-delete {
-  background-color: #d32f2f;
+  background: linear-gradient(135deg, #ef4444, #dc2626);
   color: white;
 }
 
 .btn-delete:hover {
-  background-color: #c62828;
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, #dc2626, #b91c1c);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(239, 68, 68, 0.3);
 }
 
 .btn-edit:active,

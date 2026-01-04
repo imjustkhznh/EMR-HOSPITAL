@@ -26,24 +26,27 @@ export default function DashboardLayout({
   ];
 
   return (
-    <div className="flex h-screen flex-col md:flex-row">
+    <div className="flex h-screen flex-col md:flex-row bg-gray-50">
       {/* Sidebar */}
-      <aside className="w-full md:w-64 bg-white text-gray-900 transition-all duration-300 border-b md:border-r border-gray-200 flex flex-col overflow-y-auto">
-        <div className="p-4 flex items-center">
-          <h2 className="text-lg font-bold">Menu</h2>
+      <aside className="w-full md:w-64 bg-white text-gray-900 transition-all duration-300 border-b md:border-r border-gray-200 flex flex-col overflow-y-auto shadow-sm">
+        <div className="p-6 flex items-center border-b border-gray-200">
+          <span className="text-3xl mr-3">📋</span>
+          <h2 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
+            EMR Hospital
+          </h2>
         </div>
-        <nav className="mt-6 space-y-2 px-3 flex-1 grid grid-cols-2 md:grid-cols-1 gap-2 md:gap-0">
-          {menuItems.map((item) => (
-            <Link
+        <nav className="mt-8 space-y-2 px-4 flex-1">
+          {menuItems.map((item, idx) => (
+            <a
               key={item.href}
               href={item.href}
-              className="block px-4 py-3 rounded-lg hover:bg-gray-100 transition text-sm font-medium text-center md:text-left"
+              className="block px-5 py-3 rounded-lg hover:bg-blue-50 transition text-sm font-semibold text-gray-700 hover:text-blue-600 border-l-4 border-transparent hover:border-blue-600 hover:pl-4"
             >
               {item.label}
-            </Link>
+            </a>
           ))}
         </nav>
-        <div className="p-4 border-t border-gray-200 w-full">
+        <div className="p-4 border-t border-gray-200 w-full bg-gray-50 rounded-t-lg">
           <LogoutButton />
         </div>
       </aside>
