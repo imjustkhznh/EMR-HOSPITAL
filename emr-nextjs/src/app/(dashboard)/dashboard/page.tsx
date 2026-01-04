@@ -1,11 +1,4 @@
-"use client";
 import Link from "next/link";
-import type { Metadata } from "next";
-
-export const metadata: Metadata = {
-  title: "Dashboard | EMR Hospital",
-  description: "Hospital Dashboard - Tổng quan hệ thống EMR",
-};
 
 export default function DashboardPage() {
   const stats = [
@@ -146,26 +139,6 @@ export default function DashboardPage() {
               </div>
             </div>
           ))}
-        </div>
-      </div>
-
-      {/* Quick Actions */}
-      <div className="bg-gradient-to-r from-blue-600 to-blue-700 rounded-xl shadow-lg p-8 text-white">
-        <h2 className="text-2xl font-bold mb-2">⚡ Hành động nhanh</h2>
-        <p className="text-blue-100 mb-6">Truy cập nhanh các chức năng chính của hệ thống</p>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Link
-            href="/dashboard/patients"
-            className="bg-white/20 hover:bg-white/30 backdrop-blur transition px-6 py-4 rounded-lg font-semibold text-center border border-white/30 hover:border-white/50"
-          >
-            👥 Xem danh sách bệnh nhân
-          </Link>
-          <button className="bg-white/20 hover:bg-white/30 backdrop-blur transition px-6 py-4 rounded-lg font-semibold border border-white/30 hover:border-white/50">
-            ➕ Thêm bệnh nhân mới
-          </button>
-          <button className="bg-white/20 hover:bg-white/30 backdrop-blur transition px-6 py-4 rounded-lg font-semibold border border-white/30 hover:border-white/50">
-            📊 Xuất báo cáo hôm nay
-          </button>
         </div>
       </div>
     </div>

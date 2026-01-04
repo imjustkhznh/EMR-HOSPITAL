@@ -1,8 +1,8 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import type { Metadata } from "next";
-import LogoutButton from "../components/LogoutButton";
 import { Breadcrumb } from "../components/Breadcrumb";
+import { AdminDropdown } from "../components/AdminDropdown";
 
 export const metadata: Metadata = {
   title: {
@@ -29,12 +29,6 @@ export default function DashboardLayout({
     <div className="flex h-screen flex-col md:flex-row bg-gray-50">
       {/* Sidebar */}
       <aside className="w-full md:w-64 bg-white text-gray-900 transition-all duration-300 border-b md:border-r border-gray-200 flex flex-col overflow-y-auto shadow-sm">
-        <div className="p-6 flex items-center border-b border-gray-200">
-          <span className="text-3xl mr-3">📋</span>
-          <h2 className="text-xl font-bold bg-gradient-to-r from-blue-600 to-blue-700 bg-clip-text text-transparent">
-            EMR Hospital
-          </h2>
-        </div>
         <nav className="mt-8 space-y-2 px-4 flex-1">
           {menuItems.map((item, idx) => (
             <a
@@ -46,9 +40,7 @@ export default function DashboardLayout({
             </a>
           ))}
         </nav>
-        <div className="p-4 border-t border-gray-200 w-full bg-gray-50 rounded-t-lg">
-          <LogoutButton />
-        </div>
+        <AdminDropdown />
       </aside>
 
       {/* Main Content */}
