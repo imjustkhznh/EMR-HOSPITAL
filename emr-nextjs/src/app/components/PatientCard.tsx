@@ -18,12 +18,12 @@ export function PatientCard({ patient, onEdit, onDelete }: PatientCardProps) {
   };
 
   return (
-    <div className="patient-card">
-      <div className="card-header">
+    <article className="patient-card">
+      <header className="card-header">
         <div className="patient-avatar-wrapper">
           <Image
             src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${patient.id}`}
-            alt={`${patient.name}'s avatar`}
+            alt={`Avatar of ${patient.name}`}
             width={50}
             height={50}
             className="patient-avatar"
@@ -34,58 +34,66 @@ export function PatientCard({ patient, onEdit, onDelete }: PatientCardProps) {
         </div>
         <div className="patient-info-header">
           <h2 className="patient-name">{patient.name}</h2>
-          <span className="patient-id">ID: {patient.id}</span>
+          <span className="patient-id">Patient ID: {patient.id}</span>
         </div>
-      </div>
+      </header>
       
-      <div className="card-body">
+      <section className="card-body">
         <div className="info-row">
-          <label>Age:</label>
-          <span>{patient.age} years</span>
+          <label htmlFor={`age-${patient.id}`}>Age:</label>
+          <span id={`age-${patient.id}`}>{patient.age} years</span>
         </div>
         
         <div className="info-row">
-          <label>Gender:</label>
-          <span className="gender-badge">{patient.gender}</span>
+          <label htmlFor={`gender-${patient.id}`}>Gender:</label>
+          <span id={`gender-${patient.id}`} className="gender-badge">{patient.gender}</span>
         </div>
 
         <div className="info-row">
-          <label>Phone:</label>
-          <span>{patient.phone}</span>
+          <label htmlFor={`phone-${patient.id}`}>Phone:</label>
+          <span id={`phone-${patient.id}`}>{patient.phone}</span>
         </div>
 
         <div className="info-row">
-          <label>Address:</label>
-          <span>{patient.address}</span>
+          <label htmlFor={`address-${patient.id}`}>Address:</label>
+          <span id={`address-${patient.id}`}>{patient.address}</span>
         </div>
         
         {patient.diagnosis && (
           <div className="info-row">
-            <label>Diagnosis:</label>
-            <span className="diagnosis">{patient.diagnosis}</span>
+            <label htmlFor={`diagnosis-${patient.id}`}>Diagnosis:</label>
+            <span id={`diagnosis-${patient.id}`} className="diagnosis">{patient.diagnosis}</span>
           </div>
         )}
         
         {patient.medicalRecordIds && patient.medicalRecordIds.length > 0 && (
           <div className="info-row">
-            <label>Medical Records:</label>
-            <span>{patient.medicalRecordIds.length} records</span>
+            <label htmlFor={`records-${patient.id}`}>Medical Records:</label>
+            <span id={`records-${patient.id}`}>{patient.medicalRecordIds.length} records</span>
           </div>
         )}
-      </div>
+      </section>
       
-      <div className="card-footer">
+      <footer className="card-footer">
         {onEdit && (
-          <button onClick={() => onEdit(patient)} className="btn-edit">
+          <button
+            onClick={() => onEdit(patient)}
+            className="btn-edit"
+            aria-label={`Edit patient information for ${patient.name}`}
+          >
             Edit
           </button>
         )}
         {onDelete && (
-          <button onClick={handleDelete} className="btn-delete">
+          <button
+            onClick={handleDelete}
+            className="btn-delete"
+            aria-label={`Delete patient record for ${patient.name}`}
+          >
             Delete
           </button>
         )}
-      </div>
-    </div>
+      </footer>
+    </article>
   );
 }

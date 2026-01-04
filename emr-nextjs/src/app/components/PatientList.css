@@ -1,1 +1,63 @@
-/* ...existing code from frontend/src/components/PatientList.css... */
+.patient-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  gap: 20px;
+  width: 100%;
+}
+
+/* Mobile-first responsive */
+@media (max-width: 640px) {
+  .patient-list {
+    grid-template-columns: 1fr;
+    gap: 16px;
+    padding: 0 8px;
+  }
+}
+
+@media (min-width: 641px) and (max-width: 1024px) {
+  .patient-list {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (min-width: 1025px) {
+  .patient-list {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+
+.patient-list-empty {
+  text-align: center;
+  padding: 40px 20px;
+  color: #999;
+}
+
+.patient-list-empty p {
+  font-size: 16px;
+  margin: 10px 0;
+}
+
+.patient-list-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 40px;
+}
+
+.patient-list-loading::after {
+  content: '';
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  border: 4px solid #f3f3f3;
+  border-top: 4px solid #3498db;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
