@@ -14,8 +14,11 @@ export function middleware(request: NextRequest) {
     pathname.startsWith(route)
   );
 
-  // If accessing protected route without token, redirect to login
-  if (isProtectedRoute && !token) {
+  // In development, allow access without token (comment out for production)
+  const isDevelopment = process.env.NODE_ENV === "development";
+
+  // If accessing protected route without token, redirect to login (skip in dev)
+  if (isProtectedRoute && !token && !isDevelopment) {
     return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
