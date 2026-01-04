@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
+import LogoutButton from "@/app/components/LogoutButton";
 
 // Dashboard layout - Server Component
 export default function DashboardLayout({
@@ -32,7 +33,9 @@ export default function DashboardLayout({
             </Link>
           ))}
         </nav>
-        <LogoutSection />
+        <div className="p-4 border-t border-gray-200">
+          <LogoutButton />
+        </div>
       </aside>
 
       {/* Main Content */}
@@ -41,34 +44,6 @@ export default function DashboardLayout({
           {children}
         </div>
       </main>
-    </div>
-  );
-}
-
-// Logout button as separate client component
-function LogoutSection() {
-  "use client";
-  
-  const handleLogout = () => {
-    // Clear auth data from localStorage
-    localStorage.removeItem("authToken");
-    localStorage.removeItem("userEmail");
-    
-    // Clear auth cookie
-    document.cookie = "authToken=; path=/; max-age=0";
-    
-    // Redirect to login
-    window.location.href = "/auth/login";
-  };
-
-  return (
-    <div className="p-4 border-t border-gray-200">
-      <button
-        onClick={handleLogout}
-        className="w-full text-left hover:text-blue-600 transition font-medium text-sm px-4 py-3 rounded-lg hover:bg-gray-100"
-      >
-        Admin <span className="text-xs text-gray-400">(Logout)</span>
-      </button>
     </div>
   );
 }
