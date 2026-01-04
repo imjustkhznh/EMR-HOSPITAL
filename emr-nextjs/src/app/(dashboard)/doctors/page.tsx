@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "Doctors - EMR Hospital",
-  description: "Danh sách và quản lý bác sĩ trong hệ thống EMR",
+  title: "Quản lý Bác sĩ",
+  description: "Danh sách và quản lý thông tin chi tiết bác sĩ trong hệ thống EMR. Xem chuyên khoa, lịch làm việc và thông tin liên lạc",
+  keywords: ["doctors", "bác sĩ", "medical staff", "doctors list"],
+  openGraph: {
+    title: "Quản lý Bác sĩ - EMR Hospital",
+    description: "Danh sách và quản lý thông tin chi tiết bác sĩ trong hệ thống EMR",
+    type: "website",
+  },
 };
 
 export default function DoctorsPage() {

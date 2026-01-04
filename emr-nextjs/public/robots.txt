@@ -1,0 +1,25 @@
+# EMR Hospital - Robots Configuration
+# Allows search engines to crawl and index all pages
+
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /.next/
+Disallow: /auth/login
+
+# Specific rules for Google
+User-agent: Googlebot
+Allow: /
+Crawl-delay: 0
+
+# Specific rules for Bing
+User-agent: Bingbot
+Allow: /
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://emr-hospital.local/sitemap.xml
+
+# Cache duration for robots.txt
+# Max-age in seconds (86400 = 24 hours)
+Cache-Control: max-age=86400

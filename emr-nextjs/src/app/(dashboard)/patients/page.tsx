@@ -1,9 +1,16 @@
 import Link from "next/link";
+import type { Metadata } from "next";
 import "@/app/components/index.css";
 
-export const metadata = {
-  title: "Quản lý Bệnh nhân - EMR Hospital",
-  description: "Danh sách và quản lý thông tin bệnh nhân",
+export const metadata: Metadata = {
+  title: "Quản lý Bệnh nhân",
+  description: "Danh sách và quản lý thông tin chi tiết bệnh nhân. Xem lịch sử khám bệnh, thông tin cá nhân và hồ sơ y tế",
+  keywords: ["bệnh nhân", "patient list", "medical records", "quản lý bệnh nhân"],
+  openGraph: {
+    title: "Quản lý Bệnh nhân - EMR Hospital",
+    description: "Danh sách và quản lý thông tin chi tiết bệnh nhân",
+    type: "website",
+  },
 };
 
 // Revalidate every 60 seconds (ISR - Incremental Static Regeneration)

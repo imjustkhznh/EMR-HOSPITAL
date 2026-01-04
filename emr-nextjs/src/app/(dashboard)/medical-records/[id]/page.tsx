@@ -62,16 +62,31 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
     return {
       title: "Hồ sơ không tìm thấy",
       description: "Medical record not found",
+      robots: {
+        index: false,
+      },
     };
   }
 
+  const lastVisit = medicalRecord.visits?.[0];
+  const visitDate = lastVisit?.date || new Date().toISOString();
+
   return {
     title: `Hồ sơ bệnh án - ${medicalRecord.patientName}`,
-    description: `Chi tiết y tế và lịch sử khám bệnh của ${medicalRecord.patientName}`,
+    description: `Chi tiết y tế và lịch sử khám bệnh của ${medicalRecord.patientName}. Cập nhật lần cuối: ${visitDate}`,
+    keywords: ["medical record", "hồ sơ bệnh án", "patient record", medicalRecord.patientName],
     openGraph: {
       title: `Hồ sơ bệnh án - ${medicalRecord.patientName}`,
-      description: `Chi tiết y tế của bệnh nhân`,
+      description: `Chi tiết y tế và lịch sử khám bệnh của bệnh nhân ${medicalRecord.patientName}`,
       type: "website",
+      images: [
+        {
+          url: "/og-patient.jpg",
+          width: 1200,
+          height: 630,
+          alt: `Hồ sơ bệnh án ${medicalRecord.patientName}`,
+        },
+      ],
     },
   };
 }
