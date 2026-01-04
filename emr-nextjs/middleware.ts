@@ -3,8 +3,8 @@ import { NextRequest, NextResponse } from "next/server";
 export function middleware(request: NextRequest) {
   const pathname = request.nextUrl.pathname;
 
-  // Get auth token from cookies
-  const token = request.cookies.get("authToken")?.value;
+  // Get auth token from cookies or header (set by client via cookie)
+  const token = request.cookies.get("authToken")?.value || request.headers.get("x-auth-token");
 
   // Protected routes that require authentication
   const protectedRoutes = ["/dashboard"];
@@ -16,11 +16,11 @@ export function middleware(request: NextRequest) {
 
   // If accessing protected route without token, redirect to login
   if (isProtectedRoute && !token) {
-    return NextResponse.redirect(new URL("/login", request.url));
+    return NextResponse.redirect(new URL("/auth/login", request.url));
   }
 
   // If accessing login while authenticated, redirect to dashboard
-  if (pathname === "/login" && token) {
+  if (pathname === "/auth/login" && token) {
     return NextResponse.redirect(new URL("/dashboard/dashboard", request.url));
   }
 
@@ -30,9 +30,9 @@ export function middleware(request: NextRequest) {
 // Configure which routes use middleware
 export const config = {
   matcher: [
-    // Include dashboard and login routes
+    // Include dashboard and auth routes
     "/dashboard/:path*",
-    "/login",
+    "/auth/:path*",
     // Exclude static files and API routes
     "/((?!api|_next/static|_next/image|favicon.ico).*)",
   ],

@@ -18,12 +18,15 @@ export default function DashboardLayout({
   }, []);
 
   const handleLogout = () => {
-    // Clear auth data
+    // Clear auth data from localStorage
     localStorage.removeItem("authToken");
     localStorage.removeItem("userEmail");
     
+    // Clear auth cookie
+    document.cookie = "authToken=; path=/; max-age=0";
+    
     // Redirect to login
-    router.push("/login");
+    router.push("/auth/login");
   };
 
   const menuItems = [

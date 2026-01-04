@@ -34,10 +34,13 @@ export default function LoginPage() {
       // Simulate API call delay
       await new Promise((resolve) => setTimeout(resolve, 1000));
 
-      // Store token in localStorage (simple auth)
+      // Generate and store token in localStorage and cookies
       const token = `token_${Date.now()}`;
       localStorage.setItem("authToken", token);
       localStorage.setItem("userEmail", email);
+
+      // Also set cookie for middleware auth check
+      document.cookie = `authToken=${token}; path=/; max-age=86400; SameSite=Lax`;
 
       // Redirect to dashboard
       router.push("/dashboard/dashboard");
