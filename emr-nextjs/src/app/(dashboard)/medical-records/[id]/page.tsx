@@ -2,6 +2,10 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Metadata } from "next";
 
+// Dynamic route: Each [id] is rendered on-demand with SSR
+// No revalidate = fetch data per request (fully dynamic)
+export const revalidate = 0;
+
 interface Patient {
   id: string;
   name: string;
@@ -49,7 +53,8 @@ async function getPatient(id: string): Promise<Patient | null> {
   }
 }
 
-// Dynamic metadata generation for SEO
+// Dynamic SSR with generateMetadata: Each request generates unique metadata based on patient
+// Shows in browser title and SEO with patient name: "Hồ sơ bệnh án - [Tên bệnh nhân]"
 export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
   const medicalRecord = await getMedicalRecord(params.id);
 

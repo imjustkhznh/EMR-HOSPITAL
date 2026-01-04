@@ -6,6 +6,10 @@ export const metadata = {
   description: "Danh sách và quản lý thông tin bệnh nhân",
 };
 
+// Revalidate every 60 seconds (ISR - Incremental Static Regeneration)
+// This means: static at build, then revalidate on each request after 60s
+export const revalidate = 60;
+
 interface Patient {
   id: string;
   name: string;
@@ -18,7 +22,8 @@ interface Patient {
 }
 
 async function getPatients(): Promise<Patient[]> {
-  // SSR: Fetch data at build time / request time
+  // Server Component: SSR with ISR
+  // Fetch data at request time, cache for 60s (revalidate option)
   const patients = await import("@/data/patients.json").then((m) => m.default);
   return patients;
 }
