@@ -8,5 +8,7 @@
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
     "outDir": "dist"
-  }
+  },
+  "include": [],
+  "exclude": ["node_modules", "dist", "emr-backend", "emr-nextjs", "frontend"]
 }
