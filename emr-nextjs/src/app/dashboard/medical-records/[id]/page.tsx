@@ -55,8 +55,9 @@ async function getPatient(id: string): Promise<Patient | null> {
 
 // Dynamic SSR with generateMetadata: Each request generates unique metadata based on patient
 // Shows in browser title and SEO with patient name: "Hồ sơ bệnh án - [Tên bệnh nhân]"
-export async function generateMetadata({ params }: { params: { id: string } }): Promise<Metadata> {
-  const medicalRecord = await getMedicalRecord(params.id);
+export async function generateMetadata({ params }: { params: Promise<{ id: string }> }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const medicalRecord = await getMedicalRecord(resolvedParams.id);
 
   if (!medicalRecord) {
     return {
@@ -94,10 +95,11 @@ export async function generateMetadata({ params }: { params: { id: string } }): 
 export default async function MedicalRecordDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
-  const medicalRecord = await getMedicalRecord(params.id);
-  const patient = await getPatient(params.id);
+  const resolvedParams = await params;
+  const medicalRecord = await getMedicalRecord(resolvedParams.id);
+  const patient = await getPatient(resolvedParams.id);
 
   if (!medicalRecord || !patient) {
     return notFound();

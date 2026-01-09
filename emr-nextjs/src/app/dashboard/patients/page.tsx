@@ -4,14 +4,16 @@ import { useState, useMemo, useEffect } from 'react';
 import Link from 'next/link';
 
 interface Patient {
-  id: string;
+  _id?: string;
+  id?: string;
   name: string;
   age: number;
   gender: string;
   phone: string;
   address: string;
   email: string;
-  medicalHistory: string;
+  medicalHistory?: string;
+  dateOfBirth?: string;
 }
 
 const ITEMS_PER_PAGE = 10;
@@ -27,10 +29,51 @@ export default function PatientsPage() {
     const fetchPatients = async () => {
       try {
         setLoading(true);
-        const response = await fetch('/api/patients');
+        const backendUrl = process.env.NEXT_PUBLIC_BACKEND_URL || 'http://localhost:3001';
+        const response = await fetch(`${backendUrl}/patients`);
         if (!response.ok) throw new Error('Failed to fetch patients');
         const data = await response.json();
-        setAllPatients(data);
+        
+        // Transform backend data to match frontend interface
+        const transformedData = Array.isArray(data) ? data.map((patient: any) => {
+          // Calculate age from DOB if age not provided
+          let age = patient.age || 0;
+          if (!age && patient.dob) {
+            const dob = new Date(patient.dob);
+            const today = new Date();
+            age = today.getFullYear() - dob.getFullYear() - 
+              (today.getMonth() < dob.getMonth() || 
+               (today.getMonth() === dob.getMonth() && today.getDate() < dob.getDate()) ? 1 : 0);
+          }
+          
+          // Convert gender format
+          let gender = patient.gender || 'Unknown';
+          if (gender === 'male' || gender === 'Male') gender = 'Nam';
+          if (gender === 'female' || gender === 'Female') gender = 'Nữ';
+          
+          // Convert medicalHistory to string
+          let medicalHistory = 'Không';
+          if (patient.medicalHistory) {
+            if (Array.isArray(patient.medicalHistory)) {
+              medicalHistory = patient.medicalHistory.length > 0 ? patient.medicalHistory.join(', ') : 'Không';
+            } else if (typeof patient.medicalHistory === 'string') {
+              medicalHistory = patient.medicalHistory;
+            }
+          }
+          
+          return {
+            id: patient._id || patient.id,
+            name: patient.fullName || patient.name || 'N/A',
+            age: age,
+            gender: gender,
+            phone: patient.phone || 'N/A',
+            address: patient.address || 'N/A',
+            email: patient.email || 'N/A',
+            medicalHistory: medicalHistory,
+          };
+        }) : [];
+        
+        setAllPatients(transformedData);
         setError('');
       } catch (err) {
         console.error('Error:', err);
@@ -141,9 +184,9 @@ export default function PatientsPage() {
   const filteredPatients = useMemo(() => {
     return displayPatients.filter((patient) => {
       const matchSearch =
-        patient.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        patient.phone.includes(searchTerm) ||
-        patient.email.toLowerCase().includes(searchTerm.toLowerCase());
+        (patient.name?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false) ||
+        (patient.phone?.includes(searchTerm) ?? false) ||
+        (patient.email?.toLowerCase().includes(searchTerm.toLowerCase()) ?? false);
 
       const matchGender = genderFilter === '' || patient.gender === genderFilter;
 

@@ -1,4 +1,3 @@
-
 import type { Metadata } from "next";
 import { Geist, Geist_Mono, Inter } from "next/font/google";
 import "./globals.css";
@@ -20,9 +19,6 @@ const inter = Inter({
   display: "swap",
   weight: ["400", "500", "600", "700"],
 });
-
-
-import ClientOnlyHeader from "./ClientOnlyHeader";
 
 export const metadata: Metadata = {
   title: {
@@ -75,10 +71,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} font-sans antialiased bg-gray-50 text-gray-900`}
       >
         <div className="min-h-screen flex flex-col">
-
-          {/* Header: Ẩn trên trang login/signup */}
-          {/* Kiểm tra nếu không phải trang /login hoặc /signup thì mới render HeaderClient */}
-          <ClientOnlyHeader>{children}</ClientOnlyHeader>
+          {children}
 
           {/* Footer */}
           <footer className="bg-white border-t border-gray-200 mt-12">

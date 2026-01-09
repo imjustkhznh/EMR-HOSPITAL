@@ -2,7 +2,7 @@ import Link from 'next/link';
 
 export default function NotFound() {
   return (
-    <main className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
+    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
       <article className="max-w-md w-full text-center">
         <h1 className="text-8xl font-bold text-gray-900 mb-4">404</h1>
         <h2 className="text-3xl font-bold text-gray-900 mb-4">Không tìm thấy trang</h2>
@@ -24,6 +24,6 @@ export default function NotFound() {
           </Link>
         </nav>
       </article>
-    </main>
+    </div>
   );
 }
