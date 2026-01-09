@@ -21,7 +21,8 @@ const inter = Inter({
   weight: ["400", "500", "600", "700"],
 });
 
-import HeaderClient from "./HeaderClient";
+
+import ClientOnlyHeader from "./ClientOnlyHeader";
 
 export const metadata: Metadata = {
   title: {
@@ -74,13 +75,10 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} ${inter.variable} font-sans antialiased bg-gray-50 text-gray-900`}
       >
         <div className="min-h-screen flex flex-col">
-          {/* Header */}
-          <HeaderClient />
 
-          {/* Main Content */}
-          <main className="flex-1">
-            {children}
-          </main>
+          {/* Header: Ẩn trên trang login/signup */}
+          {/* Kiểm tra nếu không phải trang /login hoặc /signup thì mới render HeaderClient */}
+          <ClientOnlyHeader>{children}</ClientOnlyHeader>
 
           {/* Footer */}
           <footer className="bg-white border-t border-gray-200 mt-12">

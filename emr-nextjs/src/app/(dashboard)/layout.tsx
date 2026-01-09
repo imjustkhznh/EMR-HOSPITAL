@@ -23,6 +23,11 @@ export default function DashboardLayout({
     { label: "Patients", href: "/dashboard/patients" },
     { label: "Medical Records", href: "/dashboard/medical-records" },
     { label: "Doctors", href: "/dashboard/doctors" },
+    { label: "Appointments", href: "/dashboard/appointments" },
+    { label: "Lab Tests", href: "/dashboard/lab-tests" },
+    { label: "Billing", href: "/dashboard/billing" },
+    { label: "Prescriptions", href: "/dashboard/prescriptions" },
+    { label: "Statistics", href: "/dashboard/statistics" },
   ];
 
   return (

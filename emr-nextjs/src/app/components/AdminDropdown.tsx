@@ -45,11 +45,9 @@ export function AdminDropdown() {
           aria-expanded={dropdownOpen}
           aria-haspopup="true"
         >
-          <span>👤 Admin</span>
+          <span>Admin</span>
           <svg
-            className={`w-4 h-4 transition-transform ${
-              dropdownOpen ? 'rotate-180' : ''
-            }`}
+            className={`w-4 h-4 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`}
             fill="none"
             stroke="currentColor"
             strokeWidth="2"
@@ -65,12 +63,16 @@ export function AdminDropdown() {
             className="absolute bottom-full left-0 right-0 mb-2 bg-white border border-gray-200 rounded-lg shadow-lg z-50"
             role="menu"
           >
-            <div className="px-4 py-3 border-b border-gray-100">
+            <button
+              onClick={() => { window.location.href = '/profile'; }}
+              className="w-full text-left px-4 py-3 border-b border-gray-100 hover:bg-blue-50 transition rounded-t-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+              role="menuitem"
+            >
               <div className="font-semibold text-gray-900 text-sm">Admin</div>
               <div className="text-xs text-gray-500 truncate">
                 {userEmail || 'admin@example.com'}
               </div>
-            </div>
+            </button>
             <button
               onClick={handleLogout}
               className="w-full text-left px-4 py-3 hover:bg-red-50 transition text-sm text-red-600 font-medium rounded-b-lg focus:outline-none focus:ring-2 focus:ring-red-500"

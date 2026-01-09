@@ -16,7 +16,7 @@ export default function HomePage() {
   return (
     <main className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 px-6">
       <article className="max-w-2xl text-center">
-        <div className="text-6xl mb-6" aria-label="Hospital icon">🏥</div>
+          <div className="mb-6"></div>
         <h1 className="text-5xl font-bold text-gray-900 mb-4">EMR Hospital System</h1>
         <p className="text-xl text-gray-600 mb-8">
           Electronic Medical Records - Hệ thống quản lý bệnh nhân chuyên nghiệp
