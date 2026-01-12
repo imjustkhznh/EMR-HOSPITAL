@@ -1,4 +1,4 @@
-
+  
 import { Patient } from './models/patient';
 
 const patients: Patient[] = [
